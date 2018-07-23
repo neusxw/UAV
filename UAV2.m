@@ -2,14 +2,14 @@ function  rawRoutes=UAV2(amount)
 clc
 close all
 %% name space
-%   MAXliquid        药箱最大容量
-%   MAXbattery       电池最大容量
-%   liquidState      药箱状态
-%   batteryState     电池状态
-%   idleSpeed        非作业时飞行速度
-%   operationSpeed   作业时飞行速度
-%   liquidPerOD         单位距离的药液消耗量
-%   batteryPerOD       单位距离的电池消耗量
+%   MAXliquid        ҩ���������
+%   MAXbattery       ����������
+%   liquidState      ҩ��״̬
+%   batteryState     ���״̬
+%   idleSpeed        ����ҵʱ�����ٶ�
+%   operationSpeed   ��ҵʱ�����ٶ�
+%   liquidPerOD         ��λ�����ҩҺ������
+%   batteryPerOD       ��λ����ĵ��������
 %%
 global OW OD MAXliquid MAXbattery
 global idleSpeed operationSpeed liquidPerOD batteryPerOD;
@@ -25,7 +25,7 @@ batteryPerOD = OD*1;
 if nargin < 1
     amount =4;
 end
-%% 绘制地图
+%% ���Ƶ�ͼ
 origin=[-1,0];
 gridPoints = [];
 fill([-0.1 0.1 0.1 -0.1 ]*0.2-0.98,[0.2 0.2 0 0]*0.2,'black');
@@ -35,15 +35,13 @@ gridPoints = addPatch(xv,yv,gridPoints);
 xv=[-0.8 -0.7 -0.3 -0.2 -0.5];
 yv=[0.25  0.7 0.6 0.3 0.2];
 gridPoints = addPatch(xv,yv,gridPoints);
-barrier =[-0.4 0.4];
 %xv=[0.8 0.95 0.85 0.7];
 %yv=[0.8 0.7 0.6 0.7];
 %gridPoints = addPatch(xv,yv,gridPoints);
-size(gridPoints)
-disp('请按任意键开始运行...')
+disp('�밴�������ʼ����...')
 pause;
-%% 规划路径
-matrixRoutes = routesPlanning(gridPoints,amount);
+%% �滮·��
+matrixRoutes = routesPlanning(gridPoints,amount)
 matrixRoutes = reshape(matrixRoutes,prod(size(matrixRoutes)),1);
 minDis=inf;
 for ii= 1:length(matrixRoutes)
@@ -62,10 +60,11 @@ for ii=1:amount
         Numbering{ii}=S+1:S+F;
     end
 end
+%% �����ʾ
 hold on
 FPS=0;
 for i=1:C
-    title(['第' num2str(i) '轮飞行']);
+    title(['��' num2str(i) '�ַ���']);
     len=0;
     for j=1:amount
         Vj=Numbering{j};
@@ -83,18 +82,31 @@ for i=1:C
             else
                 continue;
             end
+%             if k == 1
+%                  plot(currentRoute(2,1),currentRoute(2,2),'ro','LineWidth',2);
+%                  plot(currentRoute(1:2,1),currentRoute(1:2,2),'b','LineWidth',1.5);
+%                  continue;
+%             elseif k == length(currentRoute)
+%                 plot(currentRoute(end-1:end,1),currentRoute(end-1:end,2),'y','LineWidth',1.5);
+%                 plot(currentRoute(end-1,1),currentRoute(end-1,2),'rx','LineWidth',3);
+%                 continue;
+%             elseif k > length(currentRoute)
+%                 continue;
+%             else
+%                 plot(currentRoute(k:k+1,1),currentRoute(k:k+1,2),'-b');
+%             end
             num = ceil(size(currentRoute,1)/len*k);
             if num < 1 || num > size(currentRoute,1)
                 continue;
             elseif num==1
-                plot(currentRoute(2,1),currentRoute(2,2),'ro','LineWidth',1.5);
-                plot(currentRoute(1:2,1),currentRoute(1:2,2),'r','LineWidth',1.5);
+                plot(currentRoute(2,1),currentRoute(2,2),'ro','LineWidth',2);
+                plot(currentRoute(1:2,1),currentRoute(1:2,2),'b','LineWidth',1.5);
                 continue;
             elseif num+1 < size(currentRoute,1)
                 plot(currentRoute(num:num+1,1),currentRoute(num:num+1,2),'-b');
             else
                 plot(currentRoute(end-1:end,1),currentRoute(end-1:end,2),'y','LineWidth',1.5);
-                plot(currentRoute(end-1,1),currentRoute(end-1,2),'yo','LineWidth',1.5);
+                plot(currentRoute(end-1,1),currentRoute(end-1,2),'rx','LineWidth',3);
                 continue;
                 %pause(0.2);
             end
@@ -108,5 +120,5 @@ for i=1:C
         getframe;
         %m(FPS)=getframe;
      end
-    pause(2);
+    pause(1);
 end

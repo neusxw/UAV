@@ -39,7 +39,8 @@ for i=1:length(xv)-1
         newLine={};
         newLine.Number=LineNum;
         newLine.XY=[];
-        newLine.Neighbor=[oldLine];
+        newLine.Neighbor={oldLine};
+        oldLine
         while inpolygon(x0,y0,xvLoop,yvLoop)
             gridPoints = [gridPoints;[x0 y0]];
             y0 = y0 + OD;
@@ -47,7 +48,6 @@ for i=1:length(xv)-1
         x0 = x0 + OW;
         y0 = dotInLine(dot1,dot2,x0);
         y0=y0+OD/2;
-        oldLine.Neighbor=[oldLine.Neighbor,newLine];
     end
 end
 %% Êä³öÍ¼ÐÎ
