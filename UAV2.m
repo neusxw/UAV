@@ -2,14 +2,14 @@ function  rawRoutes=UAV2(amount)
 clc
 close all
 %% name space
-%   MAXliquid        Ò©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-%   MAXbattery       ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-%   liquidState      Ò©ï¿½ï¿½×´Ì¬
-%   batteryState     ï¿½ï¿½ï¿½×´Ì¬
-%   idleSpeed        ï¿½ï¿½ï¿½ï¿½ÒµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
-%   operationSpeed   ï¿½ï¿½ÒµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
-%   liquidPerOD         ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Ò©Òºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-%   batteryPerOD       ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+%   MAXliquid        Ò©Ïä×î´óÈÝÁ¿
+%   MAXbattery       µç³Ø×î´óÈÝÁ¿
+%   liquidState      Ò©Ïä×´Ì¬
+%   batteryState     µç³Ø×´Ì¬
+%   idleSpeed        ·Ç×÷ÒµÊ±·ÉÐÐËÙ¶È
+%   operationSpeed   ×÷ÒµÊ±·ÉÐÐËÙ¶È
+%   liquidPerOD         µ¥Î»¾àÀëµÄÒ©ÒºÏûºÄÁ¿
+%   batteryPerOD       µ¥Î»¾àÀëµÄµç³ØÏûºÄÁ¿
 %%
 global OW OD MAXliquid MAXbattery
 global idleSpeed operationSpeed liquidPerOD batteryPerOD;
@@ -25,10 +25,11 @@ batteryPerOD = OD*1;
 if nargin < 1
     amount =4;
 end
-%% ï¿½ï¿½ï¿½Æµï¿½Í¼
+%% »æÖÆµØÍ¼
 origin=[-1,0];
 gridPoints = [];
 fill([-0.1 0.1 0.1 -0.1 ]*0.2-0.98,[0.2 0.2 0 0]*0.2,'black');
+%Ë³Ê±ÕëÊäÈëÇøÓòµÄºá×ø±êºÍ×Ý×ø±ê
 xv=[0.2 0.5 0.6 0.1];
 yv=[0.7 0.8 0.3 0.4];
 gridPoints = addPatch(xv,yv,gridPoints);
@@ -38,9 +39,9 @@ gridPoints = addPatch(xv,yv,gridPoints);
 %xv=[0.8 0.95 0.85 0.7];
 %yv=[0.8 0.7 0.6 0.7];
 %gridPoints = addPatch(xv,yv,gridPoints);
-disp('ï¿½ë°´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½...')
+disp('Çë°´ÈÎÒâ¼ü¿ªÊ¼ÔËÐÐ...')
 pause;
-%% ï¿½æ»®Â·ï¿½ï¿½
+%% ¹æ»®Â·¾¶
 matrixRoutes = routesPlanning(gridPoints,amount)
 matrixRoutes = reshape(matrixRoutes,prod(size(matrixRoutes)),1);
 minDis=inf;
@@ -60,11 +61,11 @@ for ii=1:amount
         Numbering{ii}=S+1:S+F;
     end
 end
-%% ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+%% ½á¹ûÏÔÊ¾
 hold on
 FPS=0;
 for i=1:C
-    title(['ï¿½ï¿½' num2str(i) 'ï¿½Ö·ï¿½ï¿½ï¿½']);
+    title(['µÚ' num2str(i) 'ÂÖ·ÉÐÐ']);
     len=0;
     for j=1:amount
         Vj=Numbering{j};
