@@ -1,18 +1,18 @@
 function  [gridLines] = addPatch2Line(xv,yv,gridLines)
-%% ç”Ÿæˆåœ°å›¾
+%% Éú³ÉµØÍ¼
 %%% mane space
-%  xvï¼šå¤šè¾¹å½¢é¡¶ç‚¹çš„æ¨ªåæ ‡
-%  yvï¼šå¤šè¾¹å½¢é¡¶ç‚¹çš„çºµåæ ‡
-%  OWï¼šoperation widthï¼Œä½œä¸šå®½åº¦
-%  ODï¼šoperation depthï¼Œä½œä¸šæ·±åº¦ï¼ˆç²¾åº¦ï¼‰
+%  xv£º¶à±ßĞÎ¶¥µãµÄºá×ø±ê
+%  yv£º¶à±ßĞÎ¶¥µãµÄ×İ×ø±ê
+%  OW£ºoperation width£¬×÷Òµ¿í¶È
+%  OD£ºoperation depth£¬×÷ÒµÉî¶È£¨¾«¶È£©
 
-%% å‚æ•°è®¾ç½®
+%% ²ÎÊıÉèÖÃ
 global OW OD LineNum
 LineNum = 1;
 xvLoop=[xv xv(1)];
 yvLoop=[yv yv(1)];
-%% å¯»æ‰¾ç½‘æ ¼åˆ’åˆ†çš„èµ·å§‹ç‚¹ï¼ˆxStartï¼ŒyStartï¼‰
-%èµ·å§‹ç‚¹å³ä¸ºxåæ ‡å€¼æœ€å°çš„é‚£ä¸ªç‚¹ï¼Œè‹¥xåæ ‡æœ€å°çš„ç‚¹ä¸æ­¢ä¸€ä¸ªï¼Œåˆ™å–å…¶ä¸­yåæ ‡æœ€å°çš„é‚£ä¸ªã€‚
+%% Ñ°ÕÒÍø¸ñ»®·ÖµÄÆğÊ¼µã£¨xStart£¬yStart£©
+%ÆğÊ¼µã¼´Îªx×ø±êÖµ×îĞ¡µÄÄÇ¸öµã£¬Èôx×ø±ê×îĞ¡µÄµã²»Ö¹Ò»¸ö£¬ÔòÈ¡ÆäÖĞy×ø±ê×îĞ¡µÄÄÇ¸ö¡£
 xStart=min(xv);
 xStartNo = find(xv == xStart);
 if(length(xStartNo)>1)
@@ -22,10 +22,10 @@ if(length(xStartNo)>1)
     xStartNo = find(( (xv == xStart) & (yv == yStart)));
     xStartNo = xStartNo(1);
 end
-% å¯¹xvå’Œyvè¿›è¡Œé‡æ–°ç¼–å·ï¼Œä½¿èµ·å§‹ç‚¹ç¼–å·ä¸º1ï¼Œå…¶å®ƒç‚¹ä¾æ¬¡æŒ‰é€†æ—¶é’ˆç¼–å·
+% ¶ÔxvºÍyv½øĞĞÖØĞÂ±àºÅ£¬Ê¹ÆğÊ¼µã±àºÅÎª1£¬ÆäËüµãÒÀ´Î°´ÄæÊ±Õë±àºÅ
 xv = xv([xStartNo:-1:1 end:-1:xStartNo+1]);
 yv = yv([xStartNo:-1:1 end:-1:xStartNo+1]);
-%% ç»˜åˆ¶ç½‘æ ¼
+%% »æÖÆÍø¸ñ
 x0=xStart + OW/2;
 for i=1:length(xv)-1
     if xv(i+1) < xv(i)
@@ -45,7 +45,7 @@ for i=1:length(xv)-1
         y0=y0+OD/2;
     end
 end
-%% è¾“å‡ºå›¾å½¢
+%% Êä³öÍ¼ĞÎ
 hold on;
 axis equal
 axis([-1 1 0 1]);
