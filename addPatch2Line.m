@@ -14,9 +14,9 @@ LineNum=1;
 xvLoop=[xv xv(1)];
 yvLoop=[yv yv(1)];
 
-Line.Number=0;
+Line.Number=[];
 Line.XY=[];
-Line.Neighbor={};
+Line.Neighbor=[];
 %% 寻找划分的起始点（xStart，yStart）
 %起始点即为x坐标值最小的那个点，若x坐标最小的点不止一个，则取其中y坐标最小的那个。
 xStart=min(xv);
@@ -48,7 +48,7 @@ for i=1:length(xv)-1
         newLine.Number=LineNum;
         LineNum=LineNum+1;
         newLine.XY=[];
-        newLine.Neighbor=[oldLine];
+        newLine.Neighbor=[oldLine.Number];
         while inpolygon(x0,y0,xvLoop,yvLoop)
             newLine.XY = [newLine.XY;[x0 y0]];
             y0 = y0 + OD;
@@ -57,7 +57,7 @@ for i=1:length(xv)-1
         x0 = x0 + OW;
         y0 = dotInLine(dot1,dot2,x0);
         y0=y0+OD/2;
-        oldLine.Neighbor=[oldLine.Neighbor;newLine];
+        oldLine.Neighbor=[oldLine.Neighbor;newLine.Number];
         oldLine=newLine;
     end
 end
@@ -69,8 +69,9 @@ axis([-1 1 0 1]);
 plot(xvLoop,yvLoop,'r');
 for i=1:size(Lines,1)
     points=Lines(i).XY;
+    plot(points(:,1),points(:,2),'r');
     for j=1:size(points,1)
-        plot(points(j,1),points(j,2));
+        plot(points(j,1),points(j,2),'.');
     end
 end
 % plot(gridPoints(:,1),gridPoints(:,2),'.','markersize',2);
