@@ -2,14 +2,14 @@ function  rawRoutes=UAV2(amount)
 clc
 close all
 %% name space
-%   MAXliquid        è¯ç®±æœ€å¤§å®¹é‡
-%   MAXbattery       ç”µæ± æœ€å¤§å®¹é‡
-%   liquidState      è¯ç®±çŠ¶æ€
-%   batteryState     ç”µæ± çŠ¶æ€
-%   idleSpeed        éä½œä¸šæ—¶é£è¡Œé€Ÿåº¦
-%   operationSpeed   ä½œä¸šæ—¶é£è¡Œé€Ÿåº¦
-%   liquidPerOD         å•ä½è·ç¦»çš„è¯æ¶²æ¶ˆè€—é‡
-%   batteryPerOD       å•ä½è·ç¦»çš„ç”µæ± æ¶ˆè€—é‡
+%   MAXliquid        Ò©Ïä×î´óÈİÁ¿
+%   MAXbattery       µç³Ø×î´óÈİÁ¿
+%   liquidState      Ò©Ïä×´Ì¬
+%   batteryState     µç³Ø×´Ì¬
+%   idleSpeed        ·Ç×÷ÒµÊ±·ÉĞĞËÙ¶È
+%   operationSpeed   ×÷ÒµÊ±·ÉĞĞËÙ¶È
+%   liquidPerOD         µ¥Î»¾àÀëµÄÒ©ÒºÏûºÄÁ¿
+%   batteryPerOD       µ¥Î»¾àÀëµÄµç³ØÏûºÄÁ¿
 %%
 global OW OD MAXliquid MAXbattery
 global idleSpeed operationSpeed liquidPerOD batteryPerOD;
@@ -25,25 +25,24 @@ batteryPerOD = OD*1;
 if nargin < 1
     amount =4;
 end
-%% ç»˜åˆ¶åœ°å›¾
+%% »æÖÆµØÍ¼
 origin=[-1,0];
 gridPoints = [];
 fill([-0.1 0.1 0.1 -0.1 ]*0.2-0.98,[0.2 0.2 0 0]*0.2,'black');
+%Ë³Ê±ÕëÊäÈëÇøÓòµÄºá×ø±êºÍ×İ×ø±ê
 xv=[0.2 0.5 0.6 0.1];
 yv=[0.7 0.8 0.3 0.4];
 gridPoints = addPatch(xv,yv,gridPoints);
 xv=[-0.8 -0.7 -0.3 -0.2 -0.5];
 yv=[0.25  0.7 0.6 0.3 0.2];
 gridPoints = addPatch(xv,yv,gridPoints);
-barrier =[-0.4 0.4];
 %xv=[0.8 0.95 0.85 0.7];
 %yv=[0.8 0.7 0.6 0.7];
 %gridPoints = addPatch(xv,yv,gridPoints);
-size(gridPoints)
-disp('è¯·æŒ‰ä»»æ„é”®å¼€å§‹è¿è¡Œ...')
+disp('Çë°´ÈÎÒâ¼ü¿ªÊ¼ÔËĞĞ...')
 pause;
-%% è§„åˆ’è·¯å¾„
-matrixRoutes = routesPlanning(gridPoints,amount);
+%% ¹æ»®Â·¾¶
+matrixRoutes = routesPlanning(gridPoints,amount)
 matrixRoutes = reshape(matrixRoutes,prod(size(matrixRoutes)),1);
 minDis=inf;
 for ii= 1:length(matrixRoutes)
@@ -62,10 +61,11 @@ for ii=1:amount
         Numbering{ii}=S+1:S+F;
     end
 end
+%% ½á¹ûÏÔÊ¾
 hold on
 FPS=0;
 for i=1:C
-    title(['ç¬¬' num2str(i) 'è½®é£è¡Œ']);
+    title(['µÚ' num2str(i) 'ÂÖ·ÉĞĞ']);
     len=0;
     for j=1:amount
         Vj=Numbering{j};
@@ -83,18 +83,31 @@ for i=1:C
             else
                 continue;
             end
+%             if k == 1
+%                  plot(currentRoute(2,1),currentRoute(2,2),'ro','LineWidth',2);
+%                  plot(currentRoute(1:2,1),currentRoute(1:2,2),'b','LineWidth',1.5);
+%                  continue;
+%             elseif k == length(currentRoute)
+%                 plot(currentRoute(end-1:end,1),currentRoute(end-1:end,2),'y','LineWidth',1.5);
+%                 plot(currentRoute(end-1,1),currentRoute(end-1,2),'rx','LineWidth',3);
+%                 continue;
+%             elseif k > length(currentRoute)
+%                 continue;
+%             else
+%                 plot(currentRoute(k:k+1,1),currentRoute(k:k+1,2),'-b');
+%             end
             num = ceil(size(currentRoute,1)/len*k);
             if num < 1 || num > size(currentRoute,1)
                 continue;
             elseif num==1
-                plot(currentRoute(2,1),currentRoute(2,2),'ro','LineWidth',1.5);
-                plot(currentRoute(1:2,1),currentRoute(1:2,2),'r','LineWidth',1.5);
+                plot(currentRoute(2,1),currentRoute(2,2),'ro','LineWidth',2);
+                plot(currentRoute(1:2,1),currentRoute(1:2,2),'b','LineWidth',1.5);
                 continue;
             elseif num+1 < size(currentRoute,1)
                 plot(currentRoute(num:num+1,1),currentRoute(num:num+1,2),'-b');
             else
                 plot(currentRoute(end-1:end,1),currentRoute(end-1:end,2),'y','LineWidth',1.5);
-                plot(currentRoute(end-1,1),currentRoute(end-1,2),'yo','LineWidth',1.5);
+                plot(currentRoute(end-1,1),currentRoute(end-1,2),'rx','LineWidth',3);
                 continue;
                 %pause(0.2);
             end
@@ -108,5 +121,5 @@ for i=1:C
         getframe;
         %m(FPS)=getframe;
      end
-    pause(2);
+    pause(1);
 end
