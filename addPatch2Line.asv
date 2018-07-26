@@ -66,39 +66,37 @@ for i=1:length(boundaryX)-1
 end
 newLines=[];
 for i=1:size(Lines,1)
+    i
     MotherLine=Lines(i);
     XY=MotherLine.XY;
-    isInBarrier=1;
+    isInBarrier=0;
     aLine=MotherLine;
     aLine.XY=[];
     for j=1:size(XY,1)
         if inpolygon(XY(j,1),XY(j,2),barrierXLoop,barrierYLoop)
             if isInBarrier==0
                 isInBarrier=1;
-                newLines=[newLines;aLine];
             end
         else
             if isInBarrier==0
                 aLine.XY=[aLine.XY;XY(j,:)];
             else
                 isInBarrier=0;
+                newLines=[newLines;aLine];
                 aLine.XY=XY(j,:);
                 aLine.Number=LineNum;
                 LineNum=LineNum+1;
             end
         end
     end
-    if isInBarrier==0
-        newLines=[newLines;aLine];
-    end
+    newLines
 end
-Lines=newLines;
 %% Êä³öÍ¼ÐÎ
 hold on;
 axis equal
 axis([-1 1 0 1]);
 plot(boundaryXLoop,boundaryYLoop,'r');
-fill(barrierXLoop,barrierYLoop,'y');
+fill(barrierXLoop,barrierYLoop,'black');
 for i=1:size(Lines,1)
     points=Lines(i).XY;
     plot(points(:,1),points(:,2),'r');
