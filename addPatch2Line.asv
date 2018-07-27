@@ -8,17 +8,17 @@ function  [Lines] = addPatch2Line(boundary,barrier,Lines)
 
 %% 参数设置
 global OW OD LineNum
-OW=0.01;
-OD=0.01;
+OW=0.02;
+OD=0.02;
 LineNum=1;
 boundaryX=boundary(1,:);
 boundaryY=boundary(2,:);
 boundaryXLoop=[boundaryX boundaryX(1)];
 boundaryYLoop=[boundaryY boundaryY(1)];
-barrierX=barrier(1,:);
-barrierY=barrier(2,:);
-barrierXLoop=[barrierX barrierX(1)];
-barrierYLoop=[barrierY barrierY(1)];
+% barrierX=barrier(1,:);
+% barrierY=barrier(2,:);
+% barrierXLoop=[barrierX barrierX(1)];
+% barrierYLoop=[barrierY barrierY(1)];
 Line.Number=[];
 Line.XY=[];
 %Line.Neighbor=[];
@@ -66,37 +66,53 @@ for i=1:length(boundaryX)-1
 end
 newLines=[];
 for i=1:size(Lines,1)
-    i
     MotherLine=Lines(i);
     XY=MotherLine.XY;
-    isInBarrier=0;
+    isInBarrierBefore=1;
+    isInBarrierNow=0;
     aLine=MotherLine;
     aLine.XY=[];
     for j=1:size(XY,1)
-        if inpolygon(XY(j,1),XY(j,2),barrierXLoop,barrierYLoop)
-            if isInBarrier==0
-                isInBarrier=1;
+        for k=1:size(barrier,1)
+            aBarrier=barrier{k};
+            barrierXLoop=[aBarrier(1,:),aBarrier(1,1)];
+            barrierYLoop=[aBarrier(2,:),aBarrier(2,1)];
+            if inpolygon(XY(j,1),XY(j,2),barrierXLoop,barrierYLoop)
+                isInBarrierNow=1;
+            end
+        end
+        if isInBarrierNow
+            if isInBarrierBefore==0
+                isInBarrierBefore=1;
+                newLines=[newLines;aLine];
             end
         else
-            if isInBarrier==0
+            if isInBarrierBefore==0
                 aLine.XY=[aLine.XY;XY(j,:)];
             else
-                isInBarrier=0;
-                newLines=[newLines;aLine];
+                isInBarrierBefore=0;
                 aLine.XY=XY(j,:);
                 aLine.Number=LineNum;
                 LineNum=LineNum+1;
             end
         end
     end
-    newLines
+    if isInBarrierBefore==0
+        newLines=[newLines;aLine];
+    end
 end
+Lines=newLines;
 %% 输出图形
 hold on;
 axis equal
 axis([-1 1 0 1]);
 plot(boundaryXLoop,boundaryYLoop,'r');
-fill(barrierXLoop,barrierYLoop,'black');
+for i=1:size(barrier,1)
+    aBarrier=barrier{i};
+    barrierXLoop=[aBarrier(1,:),aBarrier(1,1)];
+    barrierYLoop=[aBarrier(2,:),aBarrier(2,1)];
+    fill(barrierXLoop,barrierYLoop,'y');
+end
 for i=1:size(Lines,1)
     points=Lines(i).XY;
     plot(points(:,1),points(:,2),'r');

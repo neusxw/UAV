@@ -1,9 +1,7 @@
 function  rawRoutes=UAV3(amount)
 %% 
 %无人机路径规划主程序，主要调用addPatch2Line和routesPlanning两个子程序，
-%addPatch2Line进行网格划分，考虑障碍物，依纵向以线条为单位
-%routesPlanning
-%
+%addPatch2Line进行网格划分，纵向以线条为单位
 clc
 close all
 %% name space
@@ -16,11 +14,10 @@ close all
 %   liquidPerOD         单位距离的药液消耗量
 %   batteryPerOD       单位距离的电池消耗量
 %%
-global OW OD MAXliquid MAXbattery LineNum
+global OW OD MAXliquid MAXbattery
 global idleSpeed operationSpeed liquidPerOD batteryPerOD;
 OW = 0.02;
 OD = 0.02;
-LineNum=1;
 MAXliquid = 3;
 MAXbattery =3;
 idleSpeed = 0.3;
