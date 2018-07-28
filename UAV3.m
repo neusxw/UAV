@@ -16,8 +16,9 @@ close all
 %   liquidPerOD         单位距离的药液消耗量
 %   batteryPerOD       单位距离的电池消耗量
 %%
-global OW OD MAXliquid MAXbattery LineNum
+global origin OW OD MAXliquid MAXbattery LineNum
 global idleSpeed operationSpeed liquidPerOD batteryPerOD;
+origin=[-1,0];
 OW = 0.02;
 OD = 0.02;
 LineNum=1;
@@ -32,7 +33,6 @@ if nargin < 1
     amount =4;
 end
 %% 绘制地图
-origin=[-1,0];
 Lines = [];
 fill([-0.1 0.1 0.1 -0.1 ]*0.2-0.98,[0.2 0.2 0 0]*0.2,'black');
 %顺时针输入区域的横坐标和纵坐标

@@ -1,4 +1,4 @@
-function TF=intersectionOrNot(point1OfLine1,point2OfLine1,point1OfLine2,point2OfLine2)
+function [TF,intersectionPoint]=intersectionOrNot(point1OfLine1,point2OfLine1,point1OfLine2,point2OfLine2)
 p1=[point1OfLine1,point2OfLine1];
 p2=[point1OfLine2,point2OfLine2];
 % figure;
@@ -16,3 +16,4 @@ TF=min(p1(1),p1(3))<=x && x<=max(p1(1),p1(3)) && ...
     min(p1(2),p1(4))<=y && y<=max(p1(2),p1(4)) && ...
     min(p2(1),p2(3))<=x && x<=max(p2(1),p2(3)) && ...
     min(p2(2),p2(4))<=y && y<=max(p2(2),p2(4));
+intersectionPoint =[x,y];
