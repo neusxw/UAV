@@ -13,9 +13,7 @@ function  [Lines] = addPatch2LineWithAngle(boundary,barrier,Angle)
 
 %% 参数设置
 global OW OD LineNum
-OW=0.02;
-OD=0.02;
-LineNum=1;
+origin=[-1,0];
 oldBoundaryX=boundary(1,:);
 oldBoundaryY=boundary(2,:);
 oldBoundaryXLoop=[oldBoundaryX oldBoundaryX(1)];
@@ -127,12 +125,11 @@ for i=1:size(barrier,1)
     aBarrier=barrier{i};
     barrierXLoop=[aBarrier(1,:),aBarrier(1,1)];
     barrierYLoop=[aBarrier(2,:),aBarrier(2,1)];
-    fill(barrierXLoop,barrierYLoop,'y');
+    fill(barrierXLoop,barrierYLoop,'black');
 end
 %绘制线条和路径点
 for i=1:size(Lines,1)
     points=Lines(i).XY;
-    getframe;
     %pause(1)
     plot(points(:,1),points(:,2),'r');
     for j=1:size(points,1)

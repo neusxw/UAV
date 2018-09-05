@@ -62,6 +62,10 @@ for ii=1:amount
     end
 end
 %% 结果显示
+
+disp('请按任意键开始运行...')
+pause;
+
 hold on
 FPS=0;
 for i=1:C
