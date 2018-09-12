@@ -76,6 +76,10 @@ for i=1:AMOUNT
     nowdot(i,:)=plotRoute{i}(mark(i),:);
     nextdot(i,:)=plotRoute{i}(mark(i)+1,:);
 end
+for i=1:AMOUNT
+    text((i-2)*0.1-0.01,0.9,[num2str(i),'#']);
+end
+
 while 1
     for i=1:AMOUNT
         rgbi=i/AMOUNT;
@@ -87,6 +91,7 @@ while 1
             %plot([nowsite(i,1),nextdot(i,1)],[nowsite(i,2),nextdot(i,2)],'go-');
             x0=nowsite(i,1);
             y0=nowsite(i,2);
+            panel([(i-2)*0.1,0.83],nowsite(i,:),nextsite(i,:));
             plotCircle(x0,y0,OW/2,[rgbi,rgbi,0]);
             remainVelocity=velocity-len;
             mark(i)=mark(i)+1;
@@ -117,6 +122,7 @@ while 1
         
         %fill([x0-OW/2 x0+OW/2 x0+OW/2 x0-OW/2]+rand*0.2*OW,[y0+OD/2 y0+OD/2 y0-OD/2 y0-OD/2]+rand*0.5*OD,[rgbi,rgbi,0],'edgealpha',0)
         plotCircle(x0,y0,OW/2,[rgbi,rgbi,0]);
+        panel([(i-2)*0.1,0.83],nowsite(i,:),nextsite(i,:));
         nowsite(i,:)=nextsite(i,:);
     end
     if all(turn>TURN)

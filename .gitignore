@@ -68,3 +68,5 @@ iOSInjectionProject/
 ##MATLAB
 .gitignore
 *.asv
+*.avi
+*.mp4
