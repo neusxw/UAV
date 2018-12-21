@@ -1,4 +1,4 @@
-function  [Lines] = addPatch2LineWithAngle(boundary,barrier,Lines,Angle)
+function  [Lines] = addPatch2LineWithAngle(boundary,barrier,Angle)
 %%
 %输入
 %Angle：原坐标轴到新坐标轴的旋转角度
@@ -13,15 +13,14 @@ function  [Lines] = addPatch2LineWithAngle(boundary,barrier,Lines,Angle)
 
 %% 参数设置
 global OW OD LineNum
-OW=0.02;
-OD=0.02;
-LineNum=1;
+origin=[-1,0];
 oldBoundaryX=boundary(1,:);
 oldBoundaryY=boundary(2,:);
 oldBoundaryXLoop=[oldBoundaryX oldBoundaryX(1)];
 oldBoundaryYLoop=[oldBoundaryY oldBoundaryY(1)];
 Line.Number=[];
 Line.XY=[];
+Lines=[];
 %% 寻找划分的起始点（xStart，yStart）
 %对边界点进行坐标变换，注意此时的Angle为原坐标轴到新坐标轴的旋转角度
 TM=[cos(Angle),-sin(Angle);sin(Angle),cos(Angle)];
@@ -43,12 +42,12 @@ end
 newBoundaryX = newBoundaryX([xStartNo:-1:1 end:-1:xStartNo+1]);
 newBoundaryY = newBoundaryY([xStartNo:-1:1 end:-1:xStartNo+1]);
 %% 绘制网格线
+% 1.首先按无障碍的方式绘制网格点；
 x0=xStart + OW/2;
 for i=1:length(newBoundaryX)-1
     if newBoundaryX(i+1) < newBoundaryX(i)
         break;
     end
-    oldLine=Line;
     dot1=[newBoundaryX(i),newBoundaryY(i)];
     dot2=[newBoundaryX(i+1),newBoundaryY(i+1)];
     y0=dotInLine(dot1,dot2,x0);
@@ -67,15 +66,14 @@ for i=1:length(newBoundaryX)-1
         y0 = dotInLine(dot1,dot2,x0);
         y0=y0+OD/2;
         %oldLine.Neighbor=[oldLine.Neighbor;newLine.Number];
-        oldLine=newLine;
     end
 end
+% 2.在1的基础上，排除在障碍物中的点，并重新定义Line
 newLines=[];
 for i=1:size(Lines,1)
     MotherLine=Lines(i);
     XY=MotherLine.XY;
     isInBarrierBefore=1;
-    isInBarrierNow=0;
     aLine=MotherLine;
     aLine.XY=[];
     for j=1:size(XY,1)
@@ -127,12 +125,11 @@ for i=1:size(barrier,1)
     aBarrier=barrier{i};
     barrierXLoop=[aBarrier(1,:),aBarrier(1,1)];
     barrierYLoop=[aBarrier(2,:),aBarrier(2,1)];
-    fill(barrierXLoop,barrierYLoop,'y');
+    fill(barrierXLoop,barrierYLoop,'black');
 end
 %绘制线条和路径点
 for i=1:size(Lines,1)
     points=Lines(i).XY;
-    getframe;
     %pause(1)
     plot(points(:,1),points(:,2),'r');
     for j=1:size(points,1)
