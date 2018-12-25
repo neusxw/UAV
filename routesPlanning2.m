@@ -61,7 +61,7 @@ end
 Routes{1,1}=flipud(Routes{1,1}); %%无用
 %% 绘制结果
 hold on
-myObj = VideoWriter('newfile');%初始化一个avi文件
+myObj = VideoWriter('c:\newfile');%初始化一个avi文件
 writerObj.FrameRate = 30;
 open(myObj);
 TURN=size(Routes,1);
